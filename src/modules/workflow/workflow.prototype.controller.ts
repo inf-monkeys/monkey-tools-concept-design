@@ -18,7 +18,7 @@ export class WorkflowPrototypeController {
   @Post('visual_concept_exploration_image_generation')
   @MonkeyToolName('visual_concept_exploration_image_generation')
   @MonkeyToolCategories([])
-  @MonkeyToolIcon('lucide:copy_image')
+  @MonkeyToolIcon('lucide:copy-image')
   @MonkeyToolDisplayName({
     "en-US": "Visual Concept Exploration (Image Generation)",
     "zh-CN": "视觉概念探索 (图像生成)"
@@ -133,7 +133,7 @@ export class WorkflowPrototypeController {
   @Post('image_element_embedding_object_editing')
   @MonkeyToolName('image_element_embedding_object_editing')
   @MonkeyToolCategories([])
-  @MonkeyToolIcon('lucide:image_plus')
+  @MonkeyToolIcon('lucide:image-plus')
   @MonkeyToolDisplayName({
     "en-US": "Image Element Embedding (Object Editing)",
     "zh-CN": "图像元素嵌入 (图像对象编辑)"
@@ -179,7 +179,7 @@ export class WorkflowPrototypeController {
   @Post('controlled_visual_exploration_controlled_image_generation')
   @MonkeyToolName('controlled_visual_exploration_controlled_image_generation')
   @MonkeyToolCategories([])
-  @MonkeyToolIcon('lucide:book_image')
+  @MonkeyToolIcon('lucide:book-image')
   @MonkeyToolDisplayName({
     "en-US": "Controlled Visual Exploration (Controlled Image Generation)",
     "zh-CN": "视觉要素可控探索 (受控图像生成)"
@@ -223,7 +223,7 @@ export class WorkflowPrototypeController {
   @Post('appearance_feature_generation')
   @MonkeyToolName('appearance_feature_generation')
   @MonkeyToolCategories([])
-  @MonkeyToolIcon('lucide:scan_face')
+  @MonkeyToolIcon('lucide:scan-face')
   @MonkeyToolDisplayName({
     "en-US": "Appearance Feature Generation",
     "zh-CN": "外观特征生成"

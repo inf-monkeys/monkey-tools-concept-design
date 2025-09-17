@@ -18,7 +18,7 @@ export class WorkflowDemandController {
   @Post('design_objective_summary')
   @MonkeyToolName('design_objective_summary')
   @MonkeyToolCategories(['demand'])
-  @MonkeyToolIcon('lucide:chart_bar')
+  @MonkeyToolIcon('lucide:chart-bar')
   @MonkeyToolDisplayName({
     "en-US": "Design Objective Summary",
     "zh-CN": "设计目标总结"
@@ -60,7 +60,7 @@ export class WorkflowDemandController {
   @Post('market_analysis_actor')
   @MonkeyToolName('market_analysis_actor')
   @MonkeyToolCategories(['demand'])
-  @MonkeyToolIcon('lucide:notebook_pen')
+  @MonkeyToolIcon('lucide:notebook-pen')
   @MonkeyToolDisplayName({
     "en-US": "MarketAnalysisActor",
     "zh-CN": "市场调研"
@@ -128,7 +128,7 @@ export class WorkflowDemandController {
   @Post('user_research')
   @MonkeyToolName('user_research')
   @MonkeyToolCategories(['demand'])
-  @MonkeyToolIcon('lucide:user_pen')
+  @MonkeyToolIcon('lucide:user-pen')
   @MonkeyToolDisplayName({
     "en-US": "User Research",
     "zh-CN": "用户调研"
@@ -218,7 +218,7 @@ export class WorkflowDemandController {
 
   @Post('market_environment_analysis')
   @MonkeyToolName('market_environment_analysis')
-  @MonkeyToolCategories(['demand'])
+  @MonkeyToolCategories(['demand', 'feature'])
   @MonkeyToolIcon('lucide:atom')
   @MonkeyToolDisplayName({
     "en-US": "Market Environment Analysis",
@@ -257,7 +257,7 @@ export class WorkflowDemandController {
   @Post('design_opportunity_analysis')
   @MonkeyToolName('design_opportunity_analysis')
   @MonkeyToolCategories(['demand', 'logic'])
-  @MonkeyToolIcon('lucide:chart_spline')
+  @MonkeyToolIcon('lucide:chart-spline')
   @MonkeyToolDisplayName({
     "en-US": "Design Opportunity Analysis",
     "zh-CN": "设计机会点分析"
@@ -311,7 +311,7 @@ export class WorkflowDemandController {
   @Post('user_scenario_analysis')
   @MonkeyToolName('user_scenario_analysis')
   @MonkeyToolCategories(['demand'])
-  @MonkeyToolIcon('lucide:contact_round')
+  @MonkeyToolIcon('lucide:contact-round')
   @MonkeyToolDisplayName({
     "en-US": "User Scenario Analysis",
     "zh-CN": "用户场景分析"

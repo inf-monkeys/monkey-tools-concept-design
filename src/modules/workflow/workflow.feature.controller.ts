@@ -143,7 +143,7 @@ export class WorkflowFeatureController {
   @Post('visual_storytelling_video_generation')
   @MonkeyToolName('visual_storytelling_video_generation')
   @MonkeyToolCategories(['feature', 'prototype'])
-  @MonkeyToolIcon('lucide:file_video')
+  @MonkeyToolIcon('lucide:file-video')
   @MonkeyToolDisplayName({
     "en-US": "Visual Storytelling (Video Generation)",
     "zh-CN": "影像叙事(视频生成)"
@@ -187,7 +187,7 @@ export class WorkflowFeatureController {
   @Post('design_concept_export')
   @MonkeyToolName('design_concept_export')
   @MonkeyToolCategories(['feature'])
-  @MonkeyToolIcon('lucide:folder_up')
+  @MonkeyToolIcon('lucide:folder-up')
   @MonkeyToolDisplayName({
     "en-US": "Design Concept Export",
     "zh-CN": "设计概念导出"
@@ -228,48 +228,10 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('market_environment_analysis')
-  @MonkeyToolName('market_environment_analysis')
-  @MonkeyToolCategories(['feature'])
-  @MonkeyToolIcon('lucide:atom')
-  @MonkeyToolDisplayName({
-    "en-US": "Market Environment Analysis",
-    "zh-CN": "市场环境分析"
-  })
-  @MonkeyToolInput([
-    {
-      "name": "8npnpp",
-      "displayName": {
-        "en-US": "product information",
-        "zh-CN": "产品信息"
-      },
-      "type": "string"
-    }
-  ])
-  @MonkeyToolOutput([
-    {
-      name: 'data',
-      displayName: {
-        'zh-CN': '结果',
-        'en-US': 'Result',
-      },
-      required: true,
-      type: 'string',
-    },
-  ])
-  public async marketEnvironmentAnalysis(
-    @Body() body: any,
-  ) {
-    return await this.service.requestWorkflow({
-      workflowId: '68b54e4204cc340c5d118bda',
-      inputData: body,
-    });
-  }
-
   @Post('functional_detail_refinement')
   @MonkeyToolName('functional_detail_refinement')
   @MonkeyToolCategories(['feature', 'logic'])
-  @MonkeyToolIcon('lucide:square_function')
+  @MonkeyToolIcon('lucide:square-function')
   @MonkeyToolDisplayName({
     "en-US": "Functional Detail Refinement",
     "zh-CN": "功能要点细化"
@@ -315,7 +277,7 @@ export class WorkflowFeatureController {
   @Post('design_solution_generation')
   @MonkeyToolName('design_solution_generation')
   @MonkeyToolCategories(['feature', 'prototype'])
-  @MonkeyToolIcon('lucide:git_pull_request_create')
+  @MonkeyToolIcon('lucide:git-pull-request-create')
   @MonkeyToolDisplayName({
     "en-US": "Design Solution Generation",
     "zh-CN": "设计方案生成"
@@ -366,7 +328,7 @@ export class WorkflowFeatureController {
   @Post('design_solution_iteration')
   @MonkeyToolName('design_solution_iteration')
   @MonkeyToolCategories(['feature', 'prototype'])
-  @MonkeyToolIcon('lucide:iteration_ccw')
+  @MonkeyToolIcon('lucide:iteration-ccw')
   @MonkeyToolDisplayName({
     "en-US": "Design Solution Iteration",
     "zh-CN": "设计方案迭代"

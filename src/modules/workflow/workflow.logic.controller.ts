@@ -75,7 +75,7 @@ export class WorkflowLogicController {
   @Post('pressure_distribution_simulation')
   @MonkeyToolName('pressure_distribution_simulation')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:square_stack')
+  @MonkeyToolIcon('lucide:square-stack')
   @MonkeyToolDisplayName({
     "en-US": "Pressure Distribution Simulation",
     "zh-CN": "压力分布模拟"
@@ -186,7 +186,7 @@ export class WorkflowLogicController {
   @Post('summary_of_triz_problems_workflow')
   @MonkeyToolName('summary_of_triz_problems_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:file_check')
+  @MonkeyToolIcon('lucide:file-check')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Problem Summary",
     "zh-CN": "TRIZ问题总结"
@@ -223,7 +223,7 @@ export class WorkflowLogicController {
   @Post('triz_parameter_transformation_workflow')
   @MonkeyToolName('triz_parameter_transformation_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:coins_exchange')
+  @MonkeyToolIcon('lucide:coins-exchange')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Parameter Transformation",
     "zh-CN": "TRIZ参数转化"
@@ -260,7 +260,7 @@ export class WorkflowLogicController {
   @Post('triz_contradiction_analysis_workflow')
   @MonkeyToolName('triz_contradiction_analysis_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:git_pull_request_arrow')
+  @MonkeyToolIcon('lucide:git-pull-request-arrow')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Contradiction Analysis",
     "zh-CN": "TRIZ矛盾分析"
@@ -297,7 +297,7 @@ export class WorkflowLogicController {
   @Post('analysis_of_triz_principles_workflow')
   @MonkeyToolName('analysis_of_triz_principles_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:align_justify')
+  @MonkeyToolIcon('lucide:align-justify')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Principle Analysis",
     "zh-CN": "TRIZ原则分析"
@@ -336,7 +336,7 @@ export class WorkflowLogicController {
   @Post('analysis_of_triz_solutions_workflow')
   @MonkeyToolName('analysis_of_triz_solutions_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:file_question')
+  @MonkeyToolIcon('lucide:file-question')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Solution Analysis",
     "zh-CN": "TRIZ解决方案分析"
@@ -451,7 +451,7 @@ export class WorkflowLogicController {
   @Post('product_structure_analysis_workflow')
   @MonkeyToolName('product_structure_analysis_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:align_horizontal_distribute_center')
+  @MonkeyToolIcon('lucide:align-horizontal-distribute-center')
   @MonkeyToolDisplayName({
     "en-US": "Product Structure Analysis",
     "zh-CN": "产品结构分析"
