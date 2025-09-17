@@ -15,8 +15,8 @@ import { WorkflowService } from './workflow.service';
 export class WorkflowLogicController {
   constructor(private readonly service: WorkflowService) { }
 
-  @Post('seat-pressure-calculation')
-  @MonkeyToolName('seat-pressure-calculation')
+  @Post('seat_pressure_calculation')
+  @MonkeyToolName('seat_pressure_calculation')
   @MonkeyToolCategories(['logic'])
   @MonkeyToolIcon('lucide:calculator')
   @MonkeyToolDisplayName({
@@ -72,10 +72,10 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('pressure-distribution-simulation')
-  @MonkeyToolName('pressure-distribution-simulation')
+  @Post('pressure_distribution_simulation')
+  @MonkeyToolName('pressure_distribution_simulation')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:square-stack')
+  @MonkeyToolIcon('lucide:square_stack')
   @MonkeyToolDisplayName({
     "en-US": "Pressure Distribution Simulation",
     "zh-CN": "压力分布模拟"
@@ -116,8 +116,8 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('pressure-distribution-visualization')
-  @MonkeyToolName('pressure-distribution-visualization')
+  @Post('pressure_distribution_visualization')
+  @MonkeyToolName('pressure_distribution_visualization')
   @MonkeyToolCategories(['logic'])
   @MonkeyToolIcon('lucide:view')
   @MonkeyToolDisplayName({
@@ -183,10 +183,10 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('summary-of-triz-problems-workflow')
-  @MonkeyToolName('summary-of-triz-problems-workflow')
+  @Post('summary_of_triz_problems_workflow')
+  @MonkeyToolName('summary_of_triz_problems_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:file-check')
+  @MonkeyToolIcon('lucide:file_check')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Problem Summary",
     "zh-CN": "TRIZ问题总结"
@@ -220,10 +220,10 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('triz-parameter-transformation-workflow')
-  @MonkeyToolName('triz-parameter-transformation-workflow')
+  @Post('triz_parameter_transformation_workflow')
+  @MonkeyToolName('triz_parameter_transformation_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:coins-exchange')
+  @MonkeyToolIcon('lucide:coins_exchange')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Parameter Transformation",
     "zh-CN": "TRIZ参数转化"
@@ -257,10 +257,10 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('triz-contradiction-analysis-workflow')
-  @MonkeyToolName('triz-contradiction-analysis-workflow')
+  @Post('triz_contradiction_analysis_workflow')
+  @MonkeyToolName('triz_contradiction_analysis_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:git-pull-request-arrow')
+  @MonkeyToolIcon('lucide:git_pull_request_arrow')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Contradiction Analysis",
     "zh-CN": "TRIZ矛盾分析"
@@ -294,10 +294,10 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('analysis-of-triz-principles-workflow')
-  @MonkeyToolName('analysis-of-triz-principles-workflow')
+  @Post('analysis_of_triz_principles_workflow')
+  @MonkeyToolName('analysis_of_triz_principles_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:align-justify')
+  @MonkeyToolIcon('lucide:align_justify')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Principle Analysis",
     "zh-CN": "TRIZ原则分析"
@@ -333,10 +333,10 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('analysis-of-triz-solutions-workflow')
-  @MonkeyToolName('analysis-of-triz-solutions-workflow')
+  @Post('analysis_of_triz_solutions_workflow')
+  @MonkeyToolName('analysis_of_triz_solutions_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:file-question')
+  @MonkeyToolIcon('lucide:file_question')
   @MonkeyToolDisplayName({
     "en-US": "TRIZ Solution Analysis",
     "zh-CN": "TRIZ解决方案分析"
@@ -372,8 +372,8 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('product-function-analysis-workflow')
-  @MonkeyToolName('product-function-analysis-workflow')
+  @Post('product_function_analysis_workflow')
+  @MonkeyToolName('product_function_analysis_workflow')
   @MonkeyToolCategories(['logic'])
   @MonkeyToolIcon('lucide:proportions')
   @MonkeyToolDisplayName({
@@ -411,8 +411,8 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('analysis-of-product-design-behavior-workflow')
-  @MonkeyToolName('analysis-of-product-design-behavior-workflow')
+  @Post('analysis_of_product_design_behavior_workflow')
+  @MonkeyToolName('analysis_of_product_design_behavior_workflow')
   @MonkeyToolCategories(['logic'])
   @MonkeyToolIcon('lucide:codesandbox')
   @MonkeyToolDisplayName({
@@ -448,10 +448,10 @@ export class WorkflowLogicController {
     });
   }
 
-  @Post('product-structure-analysis-workflow')
-  @MonkeyToolName('product-structure-analysis-workflow')
+  @Post('product_structure_analysis_workflow')
+  @MonkeyToolName('product_structure_analysis_workflow')
   @MonkeyToolCategories(['logic'])
-  @MonkeyToolIcon('lucide:align-horizontal-distribute-center')
+  @MonkeyToolIcon('lucide:align_horizontal_distribute_center')
   @MonkeyToolDisplayName({
     "en-US": "Product Structure Analysis",
     "zh-CN": "产品结构分析"

@@ -15,10 +15,10 @@ import { WorkflowService } from './workflow.service';
 export class WorkflowDemandController {
   constructor(private readonly service: WorkflowService) { }
 
-  @Post('design-objective-summary')
-  @MonkeyToolName('design-objective-summary')
+  @Post('design_objective_summary')
+  @MonkeyToolName('design_objective_summary')
   @MonkeyToolCategories(['demand'])
-  @MonkeyToolIcon('lucide:chart-bar')
+  @MonkeyToolIcon('lucide:chart_bar')
   @MonkeyToolDisplayName({
     "en-US": "Design Objective Summary",
     "zh-CN": "设计目标总结"
@@ -57,10 +57,10 @@ export class WorkflowDemandController {
     });
   }
 
-  @Post('market-analysis-actor')
-  @MonkeyToolName('market-analysis-actor')
+  @Post('market_analysis_actor')
+  @MonkeyToolName('market_analysis_actor')
   @MonkeyToolCategories(['demand'])
-  @MonkeyToolIcon('lucide:notebook-pen')
+  @MonkeyToolIcon('lucide:notebook_pen')
   @MonkeyToolDisplayName({
     "en-US": "MarketAnalysisActor",
     "zh-CN": "市场调研"
@@ -125,10 +125,10 @@ export class WorkflowDemandController {
     });
   }
 
-  @Post('user-research')
-  @MonkeyToolName('user-research')
+  @Post('user_research')
+  @MonkeyToolName('user_research')
   @MonkeyToolCategories(['demand'])
-  @MonkeyToolIcon('lucide:user-pen')
+  @MonkeyToolIcon('lucide:user_pen')
   @MonkeyToolDisplayName({
     "en-US": "User Research",
     "zh-CN": "用户调研"
@@ -178,8 +178,8 @@ export class WorkflowDemandController {
     });
   }
 
-  @Post('requirement-analysis')
-  @MonkeyToolName('requirement-analysis')
+  @Post('requirement_analysis')
+  @MonkeyToolName('requirement_analysis')
   @MonkeyToolCategories(['demand', 'logic'])
   @MonkeyToolIcon('lucide:activity')
   @MonkeyToolDisplayName({
@@ -216,8 +216,8 @@ export class WorkflowDemandController {
   }
 
 
-  @Post('market-environment-analysis')
-  @MonkeyToolName('market-environment-analysis')
+  @Post('market_environment_analysis')
+  @MonkeyToolName('market_environment_analysis')
   @MonkeyToolCategories(['demand'])
   @MonkeyToolIcon('lucide:atom')
   @MonkeyToolDisplayName({
@@ -254,10 +254,10 @@ export class WorkflowDemandController {
     });
   }
 
-  @Post('design-opportunity-analysis')
-  @MonkeyToolName('design-opportunity-analysis')
+  @Post('design_opportunity_analysis')
+  @MonkeyToolName('design_opportunity_analysis')
   @MonkeyToolCategories(['demand', 'logic'])
-  @MonkeyToolIcon('lucide:chart-spline')
+  @MonkeyToolIcon('lucide:chart_spline')
   @MonkeyToolDisplayName({
     "en-US": "Design Opportunity Analysis",
     "zh-CN": "设计机会点分析"
@@ -308,10 +308,10 @@ export class WorkflowDemandController {
     });
   }
 
-  @Post('user-scenario-analysis')
-  @MonkeyToolName('user-scenario-analysis')
+  @Post('user_scenario_analysis')
+  @MonkeyToolName('user_scenario_analysis')
   @MonkeyToolCategories(['demand'])
-  @MonkeyToolIcon('lucide:contact-round')
+  @MonkeyToolIcon('lucide:contact_round')
   @MonkeyToolDisplayName({
     "en-US": "User Scenario Analysis",
     "zh-CN": "用户场景分析"

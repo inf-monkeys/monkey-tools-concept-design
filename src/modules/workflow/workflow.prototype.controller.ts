@@ -15,10 +15,10 @@ import { WorkflowService } from './workflow.service';
 export class WorkflowPrototypeController {
   constructor(private readonly service: WorkflowService) { }
 
-  @Post('visual-concept-exploration-image-generation')
-  @MonkeyToolName('visual-concept-exploration-image-generation')
+  @Post('visual_concept_exploration_image_generation')
+  @MonkeyToolName('visual_concept_exploration_image_generation')
   @MonkeyToolCategories([])
-  @MonkeyToolIcon('lucide:copy-image')
+  @MonkeyToolIcon('lucide:copy_image')
   @MonkeyToolDisplayName({
     "en-US": "Visual Concept Exploration (Image Generation)",
     "zh-CN": "视觉概念探索 (图像生成)"
@@ -68,8 +68,8 @@ export class WorkflowPrototypeController {
     });
   }
 
-  @Post('stylized-rendering-image-style-transfer')
-  @MonkeyToolName('stylized-rendering-image-style-transfer')
+  @Post('stylized_rendering_image_style_transfer')
+  @MonkeyToolName('stylized_rendering_image_style_transfer')
   @MonkeyToolCategories([])
   @MonkeyToolIcon('lucide:images')
   @MonkeyToolDisplayName({
@@ -130,10 +130,10 @@ export class WorkflowPrototypeController {
     });
   }
 
-  @Post('image-element-embedding-object-editing')
-  @MonkeyToolName('image-element-embedding-object-editing')
+  @Post('image_element_embedding_object_editing')
+  @MonkeyToolName('image_element_embedding_object_editing')
   @MonkeyToolCategories([])
-  @MonkeyToolIcon('lucide:image-plus')
+  @MonkeyToolIcon('lucide:image_plus')
   @MonkeyToolDisplayName({
     "en-US": "Image Element Embedding (Object Editing)",
     "zh-CN": "图像元素嵌入 (图像对象编辑)"
@@ -176,10 +176,10 @@ export class WorkflowPrototypeController {
     });
   }
 
-  @Post('controlled-visual-exploration-controlled-image-generation')
-  @MonkeyToolName('controlled-visual-exploration-controlled-image-generation')
+  @Post('controlled_visual_exploration_controlled_image_generation')
+  @MonkeyToolName('controlled_visual_exploration_controlled_image_generation')
   @MonkeyToolCategories([])
-  @MonkeyToolIcon('lucide:book-image')
+  @MonkeyToolIcon('lucide:book_image')
   @MonkeyToolDisplayName({
     "en-US": "Controlled Visual Exploration (Controlled Image Generation)",
     "zh-CN": "视觉要素可控探索 (受控图像生成)"
@@ -220,10 +220,10 @@ export class WorkflowPrototypeController {
     });
   }
 
-  @Post('appearance-feature-generation')
-  @MonkeyToolName('appearance-feature-generation')
+  @Post('appearance_feature_generation')
+  @MonkeyToolName('appearance_feature_generation')
   @MonkeyToolCategories([])
-  @MonkeyToolIcon('lucide:scan-face')
+  @MonkeyToolIcon('lucide:scan_face')
   @MonkeyToolDisplayName({
     "en-US": "Appearance Feature Generation",
     "zh-CN": "外观特征生成"

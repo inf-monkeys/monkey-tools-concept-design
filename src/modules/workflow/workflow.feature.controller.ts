@@ -15,12 +15,12 @@ import { WorkflowService } from './workflow.service';
 export class WorkflowFeatureController {
   constructor(private readonly service: WorkflowService) { }
 
-  @Post('prompt-generation-text-to-image')
-  @MonkeyToolName('prompt-generation-text-to-image')
+  @Post('prompt_generation_text_to_image')
+  @MonkeyToolName('prompt_generation_text_to_image')
   @MonkeyToolCategories(['feature', 'prototype'])
   @MonkeyToolIcon('lucide:image')
   @MonkeyToolDisplayName({
-    "en-US": "Prompt Generation (Text-to-Image)",
+    "en-US": "Prompt Generation (Text_to_Image)",
     "zh-CN": "提示词生成（文生图）"
   })
   @MonkeyToolInput([
@@ -52,8 +52,8 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('design-content-evaluation')
-  @MonkeyToolName('design-content-evaluation')
+  @Post('design_content_evaluation')
+  @MonkeyToolName('design_content_evaluation')
   @MonkeyToolCategories(['feature', 'logic', 'prototype'])
   @MonkeyToolIcon('lucide:brush')
   @MonkeyToolDisplayName({
@@ -100,8 +100,8 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('concept-visualization-3d-model-generation')
-  @MonkeyToolName('concept-visualization-3d-model-generation')
+  @Post('concept_visualization_3d_model_generation')
+  @MonkeyToolName('concept_visualization_3d_model_generation')
   @MonkeyToolCategories(['feature', 'prototype'])
   @MonkeyToolIcon('lucide:box')
   @MonkeyToolDisplayName({
@@ -140,10 +140,10 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('visual-storytelling-video-generation')
-  @MonkeyToolName('visual-storytelling-video-generation')
+  @Post('visual_storytelling_video_generation')
+  @MonkeyToolName('visual_storytelling_video_generation')
   @MonkeyToolCategories(['feature', 'prototype'])
-  @MonkeyToolIcon('lucide:file-video')
+  @MonkeyToolIcon('lucide:file_video')
   @MonkeyToolDisplayName({
     "en-US": "Visual Storytelling (Video Generation)",
     "zh-CN": "影像叙事(视频生成)"
@@ -184,10 +184,10 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('design-concept-export')
-  @MonkeyToolName('design-concept-export')
+  @Post('design_concept_export')
+  @MonkeyToolName('design_concept_export')
   @MonkeyToolCategories(['feature'])
-  @MonkeyToolIcon('lucide:folder-up')
+  @MonkeyToolIcon('lucide:folder_up')
   @MonkeyToolDisplayName({
     "en-US": "Design Concept Export",
     "zh-CN": "设计概念导出"
@@ -228,8 +228,8 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('market-environment-analysis')
-  @MonkeyToolName('market-environment-analysis')
+  @Post('market_environment_analysis')
+  @MonkeyToolName('market_environment_analysis')
   @MonkeyToolCategories(['feature'])
   @MonkeyToolIcon('lucide:atom')
   @MonkeyToolDisplayName({
@@ -266,10 +266,10 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('functional-detail-refinement')
-  @MonkeyToolName('functional-detail-refinement')
+  @Post('functional_detail_refinement')
+  @MonkeyToolName('functional_detail_refinement')
   @MonkeyToolCategories(['feature', 'logic'])
-  @MonkeyToolIcon('lucide:square-function')
+  @MonkeyToolIcon('lucide:square_function')
   @MonkeyToolDisplayName({
     "en-US": "Functional Detail Refinement",
     "zh-CN": "功能要点细化"
@@ -312,10 +312,10 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('design-solution-generation')
-  @MonkeyToolName('design-solution-generation')
+  @Post('design_solution_generation')
+  @MonkeyToolName('design_solution_generation')
   @MonkeyToolCategories(['feature', 'prototype'])
-  @MonkeyToolIcon('lucide:git-pull-request-create')
+  @MonkeyToolIcon('lucide:git_pull_request_create')
   @MonkeyToolDisplayName({
     "en-US": "Design Solution Generation",
     "zh-CN": "设计方案生成"
@@ -363,10 +363,10 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('design-solution-iteration')
-  @MonkeyToolName('design-solution-iteration')
+  @Post('design_solution_iteration')
+  @MonkeyToolName('design_solution_iteration')
   @MonkeyToolCategories(['feature', 'prototype'])
-  @MonkeyToolIcon('lucide:iteration-ccw')
+  @MonkeyToolIcon('lucide:iteration_ccw')
   @MonkeyToolDisplayName({
     "en-US": "Design Solution Iteration",
     "zh-CN": "设计方案迭代"
