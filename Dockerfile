@@ -5,22 +5,19 @@ FROM node:18-alpine
 WORKDIR /usr/src/app
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY ["package.json", "yarn.lock", "./"]
+COPY ["package.json", "pnpm-lock.yaml", "./"]
 
 # Install app dependencies
-RUN yarn
-
-# Install Sharp
-RUN yarn add sharp --ignore-engines 
+RUN pnpm
 
 # Bundle app source
 COPY . .
 
 # Creates a "dist" folder with the production build
-RUN yarn build
+RUN pnpm build
 
 # Expose server port
 EXPOSE 3000
 
 # Start the server using the production build
-CMD yarn start:prod
+CMD pnpm start:prod

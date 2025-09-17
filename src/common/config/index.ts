@@ -12,9 +12,16 @@ export interface RedisConfig {
   prefix: string;
 }
 
+export interface WorkflowConfig {
+  baseUrl: string;
+  apiKey: string;
+  timeout: number;
+}
+
 export interface Config {
   server: ServerConfig;
   redis: RedisConfig;
+  workflow: WorkflowConfig;
 }
 
 const port = readConfig('server.port', 3000);
@@ -34,6 +41,11 @@ export const config: Config = {
   redis: {
     url: readConfig('redis.url'),
     prefix: readConfig('redis.prefix', 'monkeys:'),
+  },
+  workflow: {
+    baseUrl: readConfig('workflow.baseUrl'),
+    apiKey: readConfig('workflow.apiKey'),
+    timeout: readConfig('workflow.timeout', 900),
   },
 };
 

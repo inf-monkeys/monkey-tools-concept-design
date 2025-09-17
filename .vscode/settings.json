@@ -1,23 +1,19 @@
 {
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "prettier.printWidth": 120,
-  "editor.snippetSuggestions": "top",
-  "emmet.showSuggestionsAsSnippets": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "eslint.validate": [
     "javascript",
     "typescript"
   ],
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "prettier.printWidth": 120,
   "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": "active",
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
-  }
+  "editor.guides.bracketPairs": "active"
 }
