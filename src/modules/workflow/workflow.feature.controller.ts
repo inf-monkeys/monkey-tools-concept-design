@@ -68,7 +68,10 @@ export class WorkflowFeatureController {
         "zh-CN": "上传图像"
       },
       "required": false,
-      "type": "file"
+      "type": "file",
+      "typeOptions": {
+        "accept": "image/*"
+      }
     },
     {
       "name": "98mmpj",
