@@ -70,7 +70,7 @@ export class WorkflowFeatureController {
       "required": false,
       "type": "file",
       "typeOptions": {
-        "accept": "image/*"
+        "accept": ".png,.jpg,.jpeg,.webp"
       }
     },
     {
