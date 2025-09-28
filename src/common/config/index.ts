@@ -18,10 +18,17 @@ export interface WorkflowConfig {
   timeout: number;
 }
 
+export interface ConceptDesignConfig {
+  baseUrl?: string;
+  bearer?: string;
+  timeout?: number;
+}
+
 export interface Config {
   server: ServerConfig;
   redis: RedisConfig;
   workflow: WorkflowConfig;
+  conceptDesign: ConceptDesignConfig;
 }
 
 const port = readConfig('server.port', 3000);
@@ -46,6 +53,11 @@ export const config: Config = {
     baseUrl: readConfig('workflow.baseUrl'),
     apiKey: readConfig('workflow.apiKey'),
     timeout: readConfig('workflow.timeout', 900),
+  },
+  conceptDesign: {
+    baseUrl: readConfig('conceptDesign.baseUrl', process.env.CONCEPT_DESIGN_BASE_URL),
+    bearer: readConfig('conceptDesign.bearer', process.env.CONCEPT_DESIGN_BEARER),
+    timeout: readConfig('conceptDesign.timeout', 900),
   },
 };
 

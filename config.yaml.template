@@ -1,2 +1,8 @@
 server:
   port: 3000
+
+# Conceptual Design Agent upstream
+conceptDesign:
+  baseUrl: "https://09b35a7b28fa.ngrok-free.app" # change to your upstream URL
+  # bearer: ""  # optional, if upstream requires Authorization: Bearer <token>
+  timeout: 900  # seconds

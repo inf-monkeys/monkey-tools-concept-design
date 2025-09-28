@@ -1,0 +1,76 @@
+import { MonkeyToolCategories, MonkeyToolDescription, MonkeyToolDisplayName, MonkeyToolIcon, MonkeyToolInput, MonkeyToolName, MonkeyToolOutput } from '@/common/decorators/monkey-block-api-extensions.decorator';
+import { AuthGuard } from '@/common/guards/auth.guard';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ConceptDesignService } from './concept-design.service';
+
+@Controller('concept-design')
+@UseGuards(new AuthGuard())
+@ApiTags('Concept Design')
+export class ConceptDesignController {
+  constructor(private readonly service: ConceptDesignService) {}
+
+  @Post('model')
+  @ApiOperation({ summary: '参数化建模', description: '根据 name/modelid/params 进行参数化建模，输出 x_t 文件（后续可转换为 SLDPRT）' })
+  @MonkeyToolName('model')
+  @MonkeyToolCategories(['concept-design', 'cad'])
+  @MonkeyToolIcon('lucide:box')
+  @MonkeyToolDisplayName({ 'zh-CN': '参数化建模', 'en-US': 'Parametric Modeling' })
+  @MonkeyToolDescription({ 'zh-CN': '输入模型名称/编号与参数，生成 x_t 模型文件', 'en-US': 'Generate x_t model by name/modelid/params' })
+  @MonkeyToolInput([
+    { name: 'name', displayName: { 'zh-CN': '名称', 'en-US': 'Name' }, type: 'string', required: true, placeholder: 'landingGear' },
+    { name: 'it', displayName: { 'zh-CN': '迭代轮次', 'en-US': 'Iteration' }, type: 'number', required: true, default: 0 },
+    { name: 'modelid', displayName: { 'zh-CN': '模型编号', 'en-US': 'Model ID' }, type: 'number', required: true, default: 1 },
+    { name: 'params', displayName: { 'zh-CN': '参数(JSON 或对象)', 'en-US': 'Params (JSON/Object)' }, type: 'string', required: true, placeholder: '{"...": "..."}' },
+  ])
+  @MonkeyToolOutput([
+    { name: 'status', displayName: { 'zh-CN': '状态', 'en-US': 'Status' }, type: 'string' },
+    { name: 'message', displayName: { 'zh-CN': '信息', 'en-US': 'Message' }, type: 'string' },
+    { name: 'output_directory', displayName: { 'zh-CN': '输出目录', 'en-US': 'Output Directory' }, type: 'string' },
+  ])
+  public async model(@Body() body: any) {
+    const { inputs, credential } = body || {};
+    return await this.service.model(inputs, credential);
+  }
+
+  @Post('transform')
+  @ApiOperation({ summary: '转换为 SLDPRT', description: '将 name+it 的 x_t 转换为 SLDPRT' })
+  @MonkeyToolName('transform')
+  @MonkeyToolCategories(['concept-design', 'cad'])
+  @MonkeyToolIcon('lucide:scan')
+  @MonkeyToolDisplayName({ 'zh-CN': '转换为 SLDPRT', 'en-US': 'Transform to SLDPRT' })
+  @MonkeyToolInput([
+    { name: 'name', displayName: { 'zh-CN': '名称', 'en-US': 'Name' }, type: 'string', required: true },
+    { name: 'it', displayName: { 'zh-CN': '迭代轮次', 'en-US': 'Iteration' }, type: 'number', required: true, default: 0 },
+  ])
+  @MonkeyToolOutput([
+    { name: 'status', displayName: { 'zh-CN': '状态', 'en-US': 'Status' }, type: 'string' },
+    { name: 'message', displayName: { 'zh-CN': '信息', 'en-US': 'Message' }, type: 'string' },
+  ])
+  public async transform(@Body() body: any) {
+    const { inputs, credential } = body || {};
+    return await this.service.transform(inputs, credential);
+  }
+
+  @Post('analyze')
+  @ApiOperation({ summary: '有限元分析', description: '对指定 SLDPRT 模型进行有限元分析' })
+  @MonkeyToolName('analyze')
+  @MonkeyToolCategories(['concept-design', 'fea'])
+  @MonkeyToolIcon('lucide:activity')
+  @MonkeyToolDisplayName({ 'zh-CN': '有限元分析', 'en-US': 'FEA Analyze' })
+  @MonkeyToolInput([
+    { name: 'filename', displayName: { 'zh-CN': '名称(=name)', 'en-US': 'Filename (=name)' }, type: 'string', required: true },
+    { name: 'it', displayName: { 'zh-CN': '迭代轮次', 'en-US': 'Iteration' }, type: 'number', required: true, default: 0 },
+    { name: 'force', displayName: { 'zh-CN': '力值(N)', 'en-US': 'Force (N)' }, type: 'number', required: true, default: 150 },
+    { name: 'm_n', displayName: { 'zh-CN': '材料', 'en-US': 'Material' }, type: 'string', required: true, default: '合金钢' },
+  ])
+  @MonkeyToolOutput([
+    { name: 'status', displayName: { 'zh-CN': '状态', 'en-US': 'Status' }, type: 'string' },
+    { name: 'message', displayName: { 'zh-CN': '信息', 'en-US': 'Message' }, type: 'string' },
+    { name: 'data', displayName: { 'zh-CN': '结果', 'en-US': 'Result' }, type: 'string' },
+  ])
+  public async analyze(@Body() body: any) {
+    const { inputs, credential } = body || {};
+    return await this.service.analyze(inputs, credential);
+  }
+}

@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonMiddleware } from './common/middlewares/common.middleware';
 import { WorkflowModule } from './modules/workflow/workflow.module';
+import { ConceptDesignModule } from './modules/concept-design/concept-design.module';
 
 @Module({
-  imports: [ WorkflowModule],
+  imports: [ WorkflowModule, ConceptDesignModule],
   controllers: [AppController],
   providers: [AppService],
 })
