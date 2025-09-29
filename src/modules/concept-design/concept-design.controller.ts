@@ -1,8 +1,8 @@
 import { MonkeyToolCategories, MonkeyToolDescription, MonkeyToolDisplayName, MonkeyToolIcon, MonkeyToolInput, MonkeyToolName, MonkeyToolOutput } from '@/common/decorators/monkey-block-api-extensions.decorator';
 import { AuthGuard } from '@/common/guards/auth.guard';
-import { Body, Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { ConceptDesignService } from './concept-design.service';
 
 @Controller('concept-design')
@@ -99,8 +99,9 @@ export class ConceptDesignController {
     { name: 'status', displayName: { 'zh-CN': '状态', 'en-US': 'Status' }, type: 'string' },
     { name: 'message', displayName: { 'zh-CN': '信息', 'en-US': 'Message' }, type: 'string' },
     { name: 'imageUrl', displayName: { 'zh-CN': '图像链接', 'en-US': 'Image URL' }, type: 'string' },
+    { name: 'imageName', displayName: { 'zh-CN': '文件名', 'en-US': 'Image Name' }, type: 'string' },
   ])
-  public async getImageTool(@Body() body: any) {
+  public async getImageTool(@Body() body: any, @Req() req: Request) {
     const inputs = body?.inputs ?? body ?? {};
     const { name, it, imageType } = inputs;
 
@@ -118,13 +119,16 @@ export class ConceptDesignController {
         // 验证图像是否存在
         await this.service.getImage(imageName);
 
-        // 返回图像链接
-        const imageUrl = `/concept-design/results/${imageName}`;
+        // 动态构造完整的图像链接，使用请求的协议和主机
+        const protocol = req.secure || req.get('x-forwarded-proto') === 'https' ? 'https' : 'http';
+        const host = req.get('x-forwarded-host') || req.get('host') || 'localhost:3000';
+        const imageUrl = `${protocol}://${host}/concept-design/results/${imageName}`;
 
         return {
           status: 'success',
           message: `成功获取 ${imageType} 图像`,
-          imageUrl: imageUrl
+          imageUrl: imageUrl,
+          imageName: imageName  // 同时返回文件名，便于调试
         };
       } catch (error) {
         // 继续尝试下一个文件名格式
