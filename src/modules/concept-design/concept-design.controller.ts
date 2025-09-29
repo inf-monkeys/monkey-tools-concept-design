@@ -30,7 +30,11 @@ export class ConceptDesignController {
     { name: 'output_directory', displayName: { 'zh-CN': '输出目录', 'en-US': 'Output Directory' }, type: 'string' },
   ])
   public async model(@Body() body: any) {
-    const { inputs, credential } = body || {};
+    // 兼容两种入参格式：
+    // 1) { inputs: { it, name, modelid, params }, credential }
+    // 2) { it, name, modelid, params }
+    const inputs = body?.inputs ?? body ?? {};
+    const credential = body?.credential;
     return await this.service.model(inputs, credential);
   }
 
@@ -49,7 +53,8 @@ export class ConceptDesignController {
     { name: 'message', displayName: { 'zh-CN': '信息', 'en-US': 'Message' }, type: 'string' },
   ])
   public async transform(@Body() body: any) {
-    const { inputs, credential } = body || {};
+    const inputs = body?.inputs ?? body ?? {};
+    const credential = body?.credential;
     return await this.service.transform(inputs, credential);
   }
 
@@ -71,7 +76,8 @@ export class ConceptDesignController {
     { name: 'data', displayName: { 'zh-CN': '结果', 'en-US': 'Result' }, type: 'string' },
   ])
   public async analyze(@Body() body: any) {
-    const { inputs, credential } = body || {};
+    const inputs = body?.inputs ?? body ?? {};
+    const credential = body?.credential;
     return await this.service.analyze(inputs, credential);
   }
 }
