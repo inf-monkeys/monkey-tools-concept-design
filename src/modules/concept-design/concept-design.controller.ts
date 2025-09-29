@@ -82,6 +82,51 @@ export class ConceptDesignController {
     return await this.service.analyze(inputs, credential);
   }
 
+  @Post('get-image')
+  @ApiOperation({ summary: '获取分析结果图像', description: '获取有限元分析生成的图像文件' })
+  @MonkeyToolName('get-image')
+  @MonkeyToolCategories(['concept-design', 'visualization'])
+  @MonkeyToolIcon('lucide:image')
+  @MonkeyToolDisplayName({ 'zh-CN': '获取结果图像', 'en-US': 'Get Result Image' })
+  @MonkeyToolDescription({ 'zh-CN': '获取有限元分析生成的图像文件', 'en-US': 'Get FEA result images' })
+  @MonkeyToolInput([
+    { name: 'name', displayName: { 'zh-CN': '名称', 'en-US': 'Name' }, type: 'string', required: true, placeholder: 'landingGear' },
+    { name: 'it', displayName: { 'zh-CN': '迭代轮次', 'en-US': 'Iteration' }, type: 'number', required: true, default: 0 },
+    { name: 'imageType', displayName: { 'zh-CN': '图像类型', 'en-US': 'Image Type' }, type: 'string', required: true, default: 'final' },
+  ])
+  @MonkeyToolOutput([
+    { name: 'status', displayName: { 'zh-CN': '状态', 'en-US': 'Status' }, type: 'string' },
+    { name: 'message', displayName: { 'zh-CN': '信息', 'en-US': 'Message' }, type: 'string' },
+    { name: 'imageUrl', displayName: { 'zh-CN': '图像链接', 'en-US': 'Image URL' }, type: 'string' },
+  ])
+  public async getImageTool(@Body() body: any) {
+    const inputs = body?.inputs ?? body ?? {};
+    const { name, it, imageType } = inputs;
+
+    // 构造图像文件名，格式：{name}{it}_{imageType}.jpg
+    const imageName = `${name}${it}_${imageType}.jpg`;
+
+    try {
+      // 验证图像是否存在
+      await this.service.getImage(imageName);
+
+      // 返回图像链接
+      const imageUrl = `/concept-design/results/${imageName}`;
+
+      return {
+        status: 'success',
+        message: `成功获取 ${imageType} 图像`,
+        imageUrl: imageUrl
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: `图像获取失败: ${error.message}`,
+        imageUrl: null
+      };
+    }
+  }
+
   @Get('results/:imageName')
   @ApiOperation({ summary: '获取分析结果图像', description: '获取有限元分析生成的图像文件' })
   public async getImage(@Param('imageName') imageName: string, @Res() res: Response) {
