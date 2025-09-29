@@ -1,6 +1,7 @@
 import { MonkeyToolCategories, MonkeyToolDescription, MonkeyToolDisplayName, MonkeyToolIcon, MonkeyToolInput, MonkeyToolName, MonkeyToolOutput } from '@/common/decorators/monkey-block-api-extensions.decorator';
 import { AuthGuard } from '@/common/guards/auth.guard';
 import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { config } from '@/common/config';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response, Request } from 'express';
 import { ConceptDesignService } from './concept-design.service';
@@ -117,29 +118,30 @@ export class ConceptDesignController {
 
     for (const imageName of possibleNames) {
       try {
-        // 验证图像是否存在
-        await this.service.getImage(imageName);
+        // 优先上传 S3 并得到可访问 URL，失败回退为代理直链
+        const { url, source } = await this.service.fetchImageUrl(imageName);
 
-        // 动态构造完整的图像链接，使用请求的协议和主机
-        const protocol = req.secure || req.get('x-forwarded-proto') === 'https' ? 'https' : 'http';
-        const host = req.get('x-forwarded-host') || req.get('host') || 'localhost:3000';
-        const imageUrl = `${protocol}://${host}/concept-design/results/${imageName}`;
-
-        // 尝试上传到 S3
-        let s3Url = null;
-        try {
-          s3Url = await this.service.getImageAndUploadToS3(imageName);
-        } catch (s3Error) {
-          // S3 上传失败时记录错误但不影响主要功能
-          console.warn(`S3 上传失败: ${s3Error.message}`);
+        // 统一输出的 imageUrl：若是代理直链，尽量拼成绝对地址
+        let imageUrl = url;
+        if (source === 'upstream') {
+          const base = (config.server?.appUrl || '').replace(/\/$/, '');
+          if (base) {
+            imageUrl = `${base}${url}`;
+          } else {
+            const protocol = req.secure || req.get('x-forwarded-proto') === 'https' ? 'https' : 'http';
+            const host = req.get('x-forwarded-host') || req.get('host') || 'localhost:3000';
+            imageUrl = `${protocol}://${host}${url}`;
+          }
         }
+
+        const s3Url = source === 's3' ? url : null;
 
         return {
           status: 'success',
           message: `成功获取 ${imageType} 图像`,
-          imageUrl: imageUrl,
+          imageUrl,
           imageName: imageName,
-          s3Url: s3Url  // 如果 S3 上传成功则返回 S3 URL
+          s3Url,
         };
       } catch (error) {
         // 继续尝试下一个文件名格式
