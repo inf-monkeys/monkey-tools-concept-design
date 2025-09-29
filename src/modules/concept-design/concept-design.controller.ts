@@ -104,28 +104,40 @@ export class ConceptDesignController {
     const inputs = body?.inputs ?? body ?? {};
     const { name, it, imageType } = inputs;
 
-    // 构造图像文件名，格式：{name}{it}_{imageType}.jpg
-    const imageName = `${name}${it}_${imageType}.jpg`;
+    // 尝试多种图像文件名格式
+    const possibleNames = [
+      `${imageType}.jpg`,                    // final.jpg
+      `${name}${it}_${imageType}.jpg`,       // landingGear0_final.jpg
+      `${name}_${imageType}.jpg`,            // landingGear_final.jpg
+      `${name}${it}.jpg`,                    // landingGear0.jpg
+      `${imageType}_${name}${it}.jpg`,       // final_landingGear0.jpg
+    ];
 
-    try {
-      // 验证图像是否存在
-      await this.service.getImage(imageName);
+    for (const imageName of possibleNames) {
+      try {
+        // 验证图像是否存在
+        await this.service.getImage(imageName);
 
-      // 返回图像链接
-      const imageUrl = `/concept-design/results/${imageName}`;
+        // 返回图像链接
+        const imageUrl = `/concept-design/results/${imageName}`;
 
-      return {
-        status: 'success',
-        message: `成功获取 ${imageType} 图像`,
-        imageUrl: imageUrl
-      };
-    } catch (error) {
-      return {
-        status: 'error',
-        message: `图像获取失败: ${error.message}`,
-        imageUrl: null
-      };
+        return {
+          status: 'success',
+          message: `成功获取 ${imageType} 图像`,
+          imageUrl: imageUrl
+        };
+      } catch (error) {
+        // 继续尝试下一个文件名格式
+        continue;
+      }
     }
+
+    // 所有格式都失败
+    return {
+      status: 'error',
+      message: `未找到 ${imageType} 图像文件。尝试的文件名：${possibleNames.join(', ')}`,
+      imageUrl: null
+    };
   }
 
   @Get('results/:imageName')
