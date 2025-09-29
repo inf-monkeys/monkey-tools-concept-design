@@ -49,6 +49,8 @@ export class ConceptDesignService {
     const { __advancedConfig, ...rest } = (inputs || {}) as any;
     const clean: any = { ...rest };
 
+    this.logger.debug(`Raw inputs received: ${JSON.stringify(clean)}`);
+
     // 强转 it 和 modelid 为 number
     if (typeof clean.it === 'string') clean.it = Number(clean.it);
     if (typeof clean.modelid === 'string') clean.modelid = Number(clean.modelid);
@@ -58,15 +60,32 @@ export class ConceptDesignService {
       const raw = clean.params.trim();
       try {
         clean.params = JSON.parse(raw);
+        this.logger.debug(`Successfully parsed params string to object: ${JSON.stringify(clean.params)}`);
       } catch (e) {
         // 尝试常见修复：单引号转双引号，移除对象/数组末尾多余逗号
         try {
           const repaired = raw.replace(/'/g, '"').replace(/,(?=\s*[}\]])/g, '');
           clean.params = JSON.parse(repaired);
+          this.logger.debug(`Successfully parsed repaired params string to object: ${JSON.stringify(clean.params)}`);
         } catch (e2) {
-          this.logger.warn(`params looks like string but is not valid JSON, forwarding as-is`);
+          this.logger.error(`Failed to parse params as JSON: ${raw}. Error: ${e2.message}`);
+          throw new Error(`Invalid params format: ${raw}`);
         }
       }
+    }
+
+    // 验证必需参数
+    if (clean.it === undefined || clean.it === null) {
+      throw new Error(`Missing required parameter 'it': ${clean.it}`);
+    }
+    if (!clean.name) {
+      throw new Error(`Missing required parameter 'name': ${clean.name}`);
+    }
+    if (clean.modelid === undefined || clean.modelid === null) {
+      throw new Error(`Missing required parameter 'modelid': ${clean.modelid}`);
+    }
+    if (!clean.params) {
+      throw new Error(`Missing required parameter 'params': ${clean.params}`);
     }
 
     // 仅转发必要字段，避免上游对未知字段敏感
