@@ -21,7 +21,8 @@ export class ConceptDesignController {
     { name: 'name', displayName: { 'zh-CN': '名称', 'en-US': 'Name' }, type: 'string', required: true, placeholder: 'landingGear' },
     { name: 'it', displayName: { 'zh-CN': '迭代轮次', 'en-US': 'Iteration' }, type: 'number', required: true, default: 0 },
     { name: 'modelid', displayName: { 'zh-CN': '模型编号', 'en-US': 'Model ID' }, type: 'number', required: true, default: 1 },
-    { name: 'params', displayName: { 'zh-CN': '参数(JSON 或对象)', 'en-US': 'Params (JSON/Object)' }, type: 'string', required: true, placeholder: '{"...": "..."}' },
+    // 使用 json 类型，确保工作流界面以对象方式采集并传递，而不是字符串
+    { name: 'params', displayName: { 'zh-CN': '参数(JSON 或对象)', 'en-US': 'Params (JSON/Object)' }, type: 'json', required: true, default: {} },
   ])
   @MonkeyToolOutput([
     { name: 'status', displayName: { 'zh-CN': '状态', 'en-US': 'Status' }, type: 'string' },
