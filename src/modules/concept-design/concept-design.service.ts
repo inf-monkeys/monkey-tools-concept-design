@@ -1,10 +1,30 @@
 import { config } from '@/common/config';
+import { S3Helpers } from '@/common/s3';
 import { Injectable, Logger } from '@nestjs/common';
 import axios, { AxiosRequestConfig } from 'axios';
 
 @Injectable()
 export class ConceptDesignService {
   private readonly logger = new Logger(ConceptDesignService.name);
+  private s3Helpers: S3Helpers | null = null;
+  private s3Enabled: boolean = false;
+
+  constructor() {
+    // 只有在 S3 配置存在时才初始化 S3Helpers
+    if (config.s3 && config.s3.bucket && config.s3.accessKeyId && config.s3.secretAccessKey) {
+      try {
+        this.s3Helpers = new S3Helpers();
+        this.s3Enabled = true;
+        this.logger.log('S3 存储已启用');
+      } catch (error) {
+        this.logger.error(`初始化 S3Helpers 失败: ${error.message}`);
+        this.s3Enabled = false;
+      }
+    } else {
+      this.logger.warn('S3 配置不完整，图像将直接返回流数据');
+      this.s3Enabled = false;
+    }
+  }
 
   private getBaseUrl() {
     const base = (config as any)?.conceptDesign?.baseUrl || process.env.CONCEPT_DESIGN_BASE_URL;
@@ -135,5 +155,53 @@ export class ConceptDesignService {
     this.logger.debug(`GET ${url}`);
     const resp = await axios(options);
     return resp;
+  }
+
+  /**
+   * 获取图像并上传到 S3，返回 S3 URL；失败则抛错以便上层回退
+   */
+  public async getImageAndUploadToS3(imageName: string, credential?: any): Promise<string> {
+    if (!this.s3Enabled || !this.s3Helpers) {
+      throw new Error('S3 未启用，无法上传图像');
+    }
+
+    try {
+      // 获取图像流
+      const imageResponse = await this.getImage(imageName, credential);
+
+      // 内容类型
+      const contentType = imageResponse.headers['content-type'] || 'image/jpeg';
+
+      // 使用稳定的 Key，便于覆盖同名文件
+      const s3Key = `concept-design/results/${imageName}`;
+
+      // 上传到 S3（直接传流）
+      const s3Url = await this.s3Helpers.uploadFile(
+        (imageResponse as any).data,
+        s3Key,
+        contentType,
+      );
+
+      this.logger.log(`图像已上传到 S3: ${s3Url}`);
+      return s3Url;
+    } catch (error: any) {
+      this.logger.error(`上传图像到 S3 失败: ${error?.message}`);
+      throw new Error(`上传图像到 S3 失败: ${error?.message}`);
+    }
+  }
+
+  /**
+   * 拉取图像并返回可访问的 URL。优先 S3，失败回退代理直链。
+   */
+  public async fetchImageUrl(imageName: string, credential?: any): Promise<{ url: string; source: 's3' | 'upstream' }>{
+    if (this.s3Enabled && this.s3Helpers) {
+      try {
+        const url = await this.getImageAndUploadToS3(imageName, credential);
+        return { url, source: 's3' };
+      } catch (e) {
+        this.logger.warn(`S3 上传失败，回退直链: ${(e as any)?.message}`);
+      }
+    }
+    return { url: `/concept-design/results/${imageName}`, source: 'upstream' };
   }
 }

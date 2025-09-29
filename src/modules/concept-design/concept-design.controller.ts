@@ -100,6 +100,7 @@ export class ConceptDesignController {
     { name: 'message', displayName: { 'zh-CN': '信息', 'en-US': 'Message' }, type: 'string' },
     { name: 'imageUrl', displayName: { 'zh-CN': '图像链接', 'en-US': 'Image URL' }, type: 'string' },
     { name: 'imageName', displayName: { 'zh-CN': '文件名', 'en-US': 'Image Name' }, type: 'string' },
+    { name: 's3Url', displayName: { 'zh-CN': 'S3链接', 'en-US': 'S3 URL' }, type: 'string' },
   ])
   public async getImageTool(@Body() body: any, @Req() req: Request) {
     const inputs = body?.inputs ?? body ?? {};
@@ -124,11 +125,21 @@ export class ConceptDesignController {
         const host = req.get('x-forwarded-host') || req.get('host') || 'localhost:3000';
         const imageUrl = `${protocol}://${host}/concept-design/results/${imageName}`;
 
+        // 尝试上传到 S3
+        let s3Url = null;
+        try {
+          s3Url = await this.service.getImageAndUploadToS3(imageName);
+        } catch (s3Error) {
+          // S3 上传失败时记录错误但不影响主要功能
+          console.warn(`S3 上传失败: ${s3Error.message}`);
+        }
+
         return {
           status: 'success',
           message: `成功获取 ${imageType} 图像`,
           imageUrl: imageUrl,
-          imageName: imageName  // 同时返回文件名，便于调试
+          imageName: imageName,
+          s3Url: s3Url  // 如果 S3 上传成功则返回 S3 URL
         };
       } catch (error) {
         // 继续尝试下一个文件名格式

@@ -24,11 +24,22 @@ export interface ConceptDesignConfig {
   timeout?: number;
 }
 
+export interface S3Config {
+  isPrivate?: boolean;
+  endpoint: string;
+  accessKeyId: string;
+  secretAccessKey: string;
+  region: string;
+  bucket: string;
+  publicAccessUrl: string;
+}
+
 export interface Config {
   server: ServerConfig;
   redis: RedisConfig;
   workflow: WorkflowConfig;
   conceptDesign: ConceptDesignConfig;
+  s3?: S3Config;
 }
 
 const port = readConfig('server.port', 3000);
@@ -59,6 +70,15 @@ export const config: Config = {
     bearer: readConfig('conceptDesign.bearer', process.env.CONCEPT_DESIGN_BEARER),
     timeout: readConfig('conceptDesign.timeout', 900),
   },
+  s3: readConfig('s3') ? {
+    isPrivate: readConfig('s3.isPrivate', false),
+    endpoint: readConfig('s3.endpoint'),
+    accessKeyId: readConfig('s3.accessKeyId'),
+    secretAccessKey: readConfig('s3.secretAccessKey'),
+    region: readConfig('s3.region', 'cn-beijing'),
+    bucket: readConfig('s3.bucket'),
+    publicAccessUrl: readConfig('s3.publicAccessUrl'),
+  } : undefined,
 };
 
 const validateConfig = () => {
