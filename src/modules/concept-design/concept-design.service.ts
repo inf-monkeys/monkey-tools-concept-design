@@ -121,4 +121,19 @@ export class ConceptDesignService {
     this.logger.debug(`Forwarding payload to /api/v1/analyze: ${JSON.stringify(payload)}`);
     return await this.post('/api/v1/analyze', payload, credential);
   }
+
+  public async getImage(imageName: string, credential?: any) {
+    const base = this.getBaseUrl();
+    const url = `${base}/api/v1/results/${imageName}`;
+    const options: AxiosRequestConfig = {
+      method: 'GET',
+      url,
+      headers: this.buildHeaders(credential),
+      timeout: this.getTimeoutMs(),
+      responseType: 'stream',
+    };
+    this.logger.debug(`GET ${url}`);
+    const resp = await axios(options);
+    return resp;
+  }
 }

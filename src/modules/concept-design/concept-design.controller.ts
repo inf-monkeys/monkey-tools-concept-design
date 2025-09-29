@@ -1,7 +1,8 @@
 import { MonkeyToolCategories, MonkeyToolDescription, MonkeyToolDisplayName, MonkeyToolIcon, MonkeyToolInput, MonkeyToolName, MonkeyToolOutput } from '@/common/decorators/monkey-block-api-extensions.decorator';
 import { AuthGuard } from '@/common/guards/auth.guard';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { ConceptDesignService } from './concept-design.service';
 
 @Controller('concept-design')
@@ -79,5 +80,26 @@ export class ConceptDesignController {
     const inputs = body?.inputs ?? body ?? {};
     const credential = body?.credential;
     return await this.service.analyze(inputs, credential);
+  }
+
+  @Get('results/:imageName')
+  @ApiOperation({ summary: '获取分析结果图像', description: '获取有限元分析生成的图像文件' })
+  public async getImage(@Param('imageName') imageName: string, @Res() res: Response) {
+    try {
+      const imageResponse = await this.service.getImage(imageName);
+
+      // 设置响应头
+      res.setHeader('Content-Type', imageResponse.headers['content-type'] || 'image/jpeg');
+      res.setHeader('Content-Length', imageResponse.headers['content-length'] || '');
+
+      // 将图像流管道到响应
+      imageResponse.data.pipe(res);
+    } catch (error) {
+      res.status(404).json({
+        error: '图像未找到',
+        message: `无法获取图像: ${imageName}`,
+        details: error.message
+      });
+    }
   }
 }
