@@ -84,7 +84,8 @@ export class ConceptDesignController {
 
   @Post('get-image')
   @ApiOperation({ summary: '获取分析结果图像', description: '获取有限元分析生成的图像文件' })
-  @MonkeyToolName('get-image')
+  // 工具标识避免连字符，防止部分平台解析失败
+  @MonkeyToolName('get_image')
   @MonkeyToolCategories(['concept-design', 'visualization'])
   @MonkeyToolIcon('lucide:image')
   @MonkeyToolDisplayName({ 'zh-CN': '获取结果图像', 'en-US': 'Get Result Image' })
