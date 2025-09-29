@@ -46,10 +46,13 @@ export class ConceptDesignService {
 
   public async model(inputs: { it: any; name: string; modelid: any; params: any;[k: string]: any }, credential?: any) {
     // 清洗 & 规范化入参：去除工作流附带的内部字段、强转数值、解析 JSON 字符串
+    this.logger.debug(`Original inputs before processing: ${JSON.stringify(inputs)}`);
+
     const { __advancedConfig, ...rest } = (inputs || {}) as any;
     const clean: any = { ...rest };
 
-    this.logger.debug(`Raw inputs received: ${JSON.stringify(clean)}`);
+    this.logger.debug(`After removing __advancedConfig: ${JSON.stringify(clean)}`);
+    this.logger.debug(`Type of clean.it: ${typeof clean.it}, Value: ${clean.it}`);
 
     // 强转 it 和 modelid 为 number
     if (typeof clean.it === 'string') clean.it = Number(clean.it);
