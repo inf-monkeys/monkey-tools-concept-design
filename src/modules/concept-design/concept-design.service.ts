@@ -44,9 +44,9 @@ export class ConceptDesignService {
     return resp.data as T;
   }
 
-  public async model(inputs: { it: any; name: string; modelid: any; params: any; [k: string]: any }, credential?: any) {
+  public async model(inputs: { it: any; name: string; modelid: any; params: any;[k: string]: any }, credential?: any) {
     // 清洗 & 规范化入参：去除工作流附带的内部字段、强转数值、解析 JSON 字符串
-    const { __advancedConfig, ...rest } = inputs || {};
+    const { __advancedConfig, ...rest } = (inputs || {}) as any;
     const clean: any = { ...rest };
 
     // 强转 it 和 modelid 为 number
@@ -81,8 +81,8 @@ export class ConceptDesignService {
     return await this.post('/api/v1/model', payload, credential);
   }
 
-  public async transform(inputs: { it: any; name: string; [k: string]: any }, credential?: any) {
-    const { __advancedConfig, ...rest } = inputs || {};
+  public async transform(inputs: { it: any; name: string;[k: string]: any }, credential?: any) {
+    const { __advancedConfig, ...rest } = (inputs || {}) as any;
     const clean: any = { ...rest };
     if (typeof clean.it === 'string') clean.it = Number(clean.it);
     const payload = { it: clean.it, name: clean.name };
@@ -90,8 +90,8 @@ export class ConceptDesignService {
     return await this.post('/api/v1/transform', payload, credential);
   }
 
-  public async analyze(inputs: { it: any; filename: string; force: any; m_n: string; [k: string]: any }, credential?: any) {
-    const { __advancedConfig, ...rest } = inputs || {};
+  public async analyze(inputs: { it: any; filename: string; force: any; m_n: string;[k: string]: any }, credential?: any) {
+    const { __advancedConfig, ...rest } = (inputs || {}) as any;
     const clean: any = { ...rest };
     if (typeof clean.it === 'string') clean.it = Number(clean.it);
     if (typeof clean.force === 'string') clean.force = Number(clean.force);
