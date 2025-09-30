@@ -69,6 +69,7 @@ export class ConceptDesignController {
   @MonkeyToolInput([
     { name: 'filename', displayName: { 'zh-CN': '名称(=name)', 'en-US': 'Filename (=name)' }, type: 'string', required: true },
     { name: 'it', displayName: { 'zh-CN': '迭代轮次', 'en-US': 'Iteration' }, type: 'number', required: true, default: 0 },
+    { name: 'id', displayName: { 'zh-CN': '结构类型', 'en-US': 'Structure Type' }, type: 'number', required: false, default: 0, description: { 'zh-CN': '0=双滑撬, 1=多足, 2=连杆', 'en-US': '0=Double Skid, 1=Multi-leg, 2=Linkage' } },
     { name: 'force', displayName: { 'zh-CN': '力值(N)', 'en-US': 'Force (N)' }, type: 'number', required: true, default: 150 },
     { name: 'm_n', displayName: { 'zh-CN': '材料', 'en-US': 'Material' }, type: 'string', required: true, default: '合金钢' },
   ])

@@ -132,12 +132,19 @@ export class ConceptDesignService {
     return await this.post('/api/v1/transform', payload, credential);
   }
 
-  public async analyze(inputs: { it: any; filename: string; force: any; m_n: string;[k: string]: any }, credential?: any) {
+  public async analyze(inputs: { it: any; filename: string; force: any; m_n: string; id?: any;[k: string]: any }, credential?: any) {
     const { __advancedConfig, ...rest } = (inputs || {}) as any;
     const clean: any = { ...rest };
     if (typeof clean.it === 'string') clean.it = Number(clean.it);
     if (typeof clean.force === 'string') clean.force = Number(clean.force);
-    const payload = { it: clean.it, filename: clean.filename, force: clean.force, m_n: clean.m_n };
+    if (clean.id !== undefined && typeof clean.id === 'string') clean.id = Number(clean.id);
+    const payload = {
+      it: clean.it,
+      filename: clean.filename,
+      force: clean.force,
+      m_n: clean.m_n,
+      ...(clean.id !== undefined && { id: clean.id }) // 只有定义了才传递
+    };
     this.logger.debug(`Forwarding payload to /api/v1/analyze: ${JSON.stringify(payload)}`);
     return await this.post('/api/v1/analyze', payload, credential);
   }
