@@ -101,7 +101,6 @@ export class ConceptDesignController {
     { name: 'message', displayName: { 'zh-CN': '信息', 'en-US': 'Message' }, type: 'string' },
     { name: 'imageUrl', displayName: { 'zh-CN': '图像链接', 'en-US': 'Image URL' }, type: 'string' },
     { name: 'imageName', displayName: { 'zh-CN': '文件名', 'en-US': 'Image Name' }, type: 'string' },
-    { name: 's3Url', displayName: { 'zh-CN': 'S3链接', 'en-US': 'S3 URL' }, type: 'string' },
   ])
   public async getImageTool(@Body() body: any, @Req() req: Request) {
     const inputs = body?.inputs ?? body ?? {};
@@ -121,7 +120,7 @@ export class ConceptDesignController {
         // 优先上传 S3 并得到可访问 URL，失败回退为代理直链
         const { url, source } = await this.service.fetchImageUrl(imageName);
 
-        // 统一输出的 imageUrl：若是代理直链，尽量拼成绝对地址
+        // 统一输出的 imageUrl：S3 URL 直接使用，代理直链拼成绝对地址
         let imageUrl = url;
         if (source === 'upstream') {
           const base = (config.server?.appUrl || '').replace(/\/$/, '');
@@ -134,14 +133,11 @@ export class ConceptDesignController {
           }
         }
 
-        const s3Url = source === 's3' ? url : null;
-
         return {
           status: 'success',
           message: `成功获取 ${imageType} 图像`,
           imageUrl,
           imageName: imageName,
-          s3Url,
         };
       } catch (error) {
         // 继续尝试下一个文件名格式
