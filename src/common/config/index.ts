@@ -26,6 +26,7 @@ export interface ConceptDesignConfig {
 
 export interface S3Config {
   isPrivate?: boolean;
+  forcePathStyle?: boolean;
   endpoint: string;
   accessKeyId: string;
   secretAccessKey: string;
@@ -72,6 +73,7 @@ export const config: Config = {
   },
   s3: readConfig('s3') ? {
     isPrivate: readConfig('s3.isPrivate', false),
+    forcePathStyle: readConfig('s3.forcePathStyle', true),
     endpoint: readConfig('s3.endpoint'),
     accessKeyId: readConfig('s3.accessKeyId'),
     secretAccessKey: readConfig('s3.secretAccessKey'),
