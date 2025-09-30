@@ -125,14 +125,14 @@ export class ConceptDesignController {
     // 构建唯一图像名称：name_it_modelid_imageType.jpg
     const uniqueImageName = `${name}${it}_${modelid ?? 0}_${imageType}.jpg`;
 
-    // 尝试多种图像文件名格式（向后兼容旧格式）
+    // 尝试多种图像文件名格式（优先尝试新格式，然后回退到旧格式）
     const possibleNames = [
-      uniqueImageName,                       // landingGear0_1_final.jpg (新格式，唯一)
-      `${name}${it}_${imageType}.jpg`,       // landingGear0_final.jpg (旧格式)
-      `${imageType}.jpg`,                    // final.jpg (最旧格式)
-      `${name}_${imageType}.jpg`,            // landingGear_final.jpg
-      `${name}${it}.jpg`,                    // landingGear0.jpg
-      `${imageType}_${name}${it}.jpg`,       // final_landingGear0.jpg
+      uniqueImageName,                       // model_demo0_2_final.jpg (新格式，唯一)
+      `${imageType}.jpg`,                    // final.jpg (旧格式，会被覆盖)
+      `${name}${it}_${imageType}.jpg`,       // model_demo0_final.jpg
+      `${name}_${imageType}.jpg`,            // model_demo_final.jpg
+      `${name}${it}.jpg`,                    // model_demo0.jpg
+      `${imageType}_${name}${it}.jpg`,       // final_model_demo0.jpg
     ];
 
     for (const imageName of possibleNames) {
