@@ -123,13 +123,21 @@ export class ConceptDesignController {
         // 统一输出的 imageUrl：S3 URL 直接使用，代理直链拼成绝对地址
         let imageUrl = url;
         if (source === 'upstream') {
-          const base = (config.server?.appUrl || '').replace(/\/$/, '');
-          if (base) {
-            imageUrl = `${base}${url}`;
+          // 优先使用配置的 appUrl
+          const base = config.server?.appUrl;
+          if (base && base !== `http://localhost:${config.server?.port || 3000}`) {
+            // 配置了有效的 appUrl（非默认 localhost）
+            imageUrl = `${base.replace(/\/$/, '')}${url}`;
           } else {
+            // 尝试从请求头推断
             const protocol = req.secure || req.get('x-forwarded-proto') === 'https' ? 'https' : 'http';
-            const host = req.get('x-forwarded-host') || req.get('host') || 'localhost:3000';
-            imageUrl = `${protocol}://${host}${url}`;
+            const host = req.get('x-forwarded-host') || req.get('host');
+            if (host && !host.includes('localhost')) {
+              imageUrl = `${protocol}://${host}${url}`;
+            } else {
+              // 如果实在无法获取，返回相对路径（由前端或网关处理）
+              imageUrl = url;
+            }
           }
         }
 

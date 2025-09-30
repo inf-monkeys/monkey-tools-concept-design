@@ -175,9 +175,16 @@ export class ConceptDesignService {
       // 使用稳定的 Key，便于覆盖同名文件
       const s3Key = `concept-design/results/${imageName}`;
 
-      // 上传到 S3（直接传流）
+      // 将流转换为 Buffer（解决 AWS SDK content-length 问题）
+      const chunks: Buffer[] = [];
+      for await (const chunk of imageResponse.data) {
+        chunks.push(Buffer.from(chunk));
+      }
+      const buffer = Buffer.concat(chunks);
+
+      // 上传到 S3
       const s3Url = await this.s3Helpers.uploadFile(
-        (imageResponse as any).data,
+        buffer,
         s3Key,
         contentType,
       );
