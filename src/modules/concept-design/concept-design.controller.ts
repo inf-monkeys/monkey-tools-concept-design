@@ -5,6 +5,7 @@ import { config } from '@/common/config';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response, Request } from 'express';
 import { ConceptDesignService } from './concept-design.service';
+import { getDefaultParams } from './initial-params';
 
 @Controller('concept-design')
 @UseGuards(new AuthGuard())
@@ -22,9 +23,9 @@ export class ConceptDesignController {
   @MonkeyToolInput([
     { name: 'name', displayName: { 'zh-CN': '名称', 'en-US': 'Name' }, type: 'string', required: true, placeholder: 'landingGear' },
     { name: 'it', displayName: { 'zh-CN': '迭代轮次', 'en-US': 'Iteration' }, type: 'number', required: true, default: 0 },
-    { name: 'modelid', displayName: { 'zh-CN': '模型编号', 'en-US': 'Model ID' }, type: 'number', required: true, default: 1 },
-    // 使用 json 类型，确保工作流界面以对象方式采集并传递，而不是字符串
-    { name: 'params', displayName: { 'zh-CN': '参数(JSON 或对象)', 'en-US': 'Params (JSON/Object)' }, type: 'json', required: true, default: {} },
+    { name: 'modelid', displayName: { 'zh-CN': '模型编号', 'en-US': 'Model ID' }, type: 'number', required: true, default: 1, description: { 'zh-CN': '0=双滑撬, 1=多足, 2=连杆', 'en-US': '0=Double Skid, 1=Multi-leg, 2=Linkage' } },
+    // 使用 json 类型，确保工作流界面以对象方式采集并传递，而不是字符串；如果不传则自动使用默认参数
+    { name: 'params', displayName: { 'zh-CN': '参数(JSON 或对象)', 'en-US': 'Params (JSON/Object)' }, type: 'json', required: false, default: null, description: { 'zh-CN': '可选，不填则使用默认参数', 'en-US': 'Optional, use default if not provided' } },
   ])
   @MonkeyToolOutput([
     { name: 'status', displayName: { 'zh-CN': '状态', 'en-US': 'Status' }, type: 'string' },
@@ -37,6 +38,12 @@ export class ConceptDesignController {
     // 2) { it, name, modelid, params }
     const inputs = body?.inputs ?? body ?? {};
     const credential = body?.credential;
+
+    // 如果没有传 params 或 params 为空，使用默认参数
+    if (!inputs.params || (typeof inputs.params === 'object' && Object.keys(inputs.params).length === 0)) {
+      inputs.params = getDefaultParams(inputs.modelid ?? 1);
+    }
+
     return await this.service.model(inputs, credential);
   }
 
@@ -72,6 +79,7 @@ export class ConceptDesignController {
     { name: 'modelid', displayName: { 'zh-CN': '模型编号', 'en-US': 'Model ID' }, type: 'number', required: false, default: 0, description: { 'zh-CN': '0=双滑撬, 1=多足, 2=连杆', 'en-US': '0=Double Skid, 1=Multi-leg, 2=Linkage' } },
     { name: 'force', displayName: { 'zh-CN': '力值(N)', 'en-US': 'Force (N)' }, type: 'number', required: true, default: 150 },
     { name: 'm_n', displayName: { 'zh-CN': '材料', 'en-US': 'Material' }, type: 'string', required: true, default: '合金钢' },
+    { name: 'params', displayName: { 'zh-CN': '参数(JSON 或对象)', 'en-US': 'Params (JSON/Object)' }, type: 'json', required: false, default: null, description: { 'zh-CN': '可选，不填则使用默认参数', 'en-US': 'Optional, use default if not provided' } },
   ])
   @MonkeyToolOutput([
     { name: 'status', displayName: { 'zh-CN': '状态', 'en-US': 'Status' }, type: 'string' },
@@ -81,6 +89,12 @@ export class ConceptDesignController {
   public async analyze(@Body() body: any) {
     const inputs = body?.inputs ?? body ?? {};
     const credential = body?.credential;
+
+    // 如果没有传 params 或 params 为空，使用默认参数
+    if (!inputs.params || (typeof inputs.params === 'object' && Object.keys(inputs.params).length === 0)) {
+      inputs.params = getDefaultParams(inputs.modelid ?? 0);
+    }
+
     return await this.service.analyze(inputs, credential);
   }
 
@@ -95,6 +109,7 @@ export class ConceptDesignController {
   @MonkeyToolInput([
     { name: 'name', displayName: { 'zh-CN': '名称', 'en-US': 'Name' }, type: 'string', required: true, placeholder: 'landingGear' },
     { name: 'it', displayName: { 'zh-CN': '迭代轮次', 'en-US': 'Iteration' }, type: 'number', required: true, default: 0 },
+    { name: 'modelid', displayName: { 'zh-CN': '模型编号', 'en-US': 'Model ID' }, type: 'number', required: false, default: 0 },
     { name: 'imageType', displayName: { 'zh-CN': '图像类型', 'en-US': 'Image Type' }, type: 'string', required: true, default: 'final' },
   ])
   @MonkeyToolOutput([
@@ -105,12 +120,16 @@ export class ConceptDesignController {
   ])
   public async getImageTool(@Body() body: any, @Req() req: Request) {
     const inputs = body?.inputs ?? body ?? {};
-    const { name, it, imageType } = inputs;
+    const { name, it, imageType, modelid } = inputs;
 
-    // 尝试多种图像文件名格式
+    // 构建唯一图像名称：name_it_modelid_imageType.jpg
+    const uniqueImageName = `${name}${it}_${modelid ?? 0}_${imageType}.jpg`;
+
+    // 尝试多种图像文件名格式（向后兼容旧格式）
     const possibleNames = [
-      `${imageType}.jpg`,                    // final.jpg
-      `${name}${it}_${imageType}.jpg`,       // landingGear0_final.jpg
+      uniqueImageName,                       // landingGear0_1_final.jpg (新格式，唯一)
+      `${name}${it}_${imageType}.jpg`,       // landingGear0_final.jpg (旧格式)
+      `${imageType}.jpg`,                    // final.jpg (最旧格式)
       `${name}_${imageType}.jpg`,            // landingGear_final.jpg
       `${name}${it}.jpg`,                    // landingGear0.jpg
       `${imageType}_${name}${it}.jpg`,       // final_landingGear0.jpg

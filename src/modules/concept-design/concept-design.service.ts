@@ -132,7 +132,7 @@ export class ConceptDesignService {
     return await this.post('/api/v1/transform', payload, credential);
   }
 
-  public async analyze(inputs: { it: any; filename: string; force: any; m_n: string; modelid?: any;[k: string]: any }, credential?: any) {
+  public async analyze(inputs: { it: any; filename: string; force: any; m_n: string; modelid?: any; params?: any;[k: string]: any }, credential?: any) {
     const { __advancedConfig, ...rest } = (inputs || {}) as any;
     const clean: any = { ...rest };
     if (typeof clean.it === 'string') clean.it = Number(clean.it);
@@ -150,6 +150,11 @@ export class ConceptDesignService {
     // 如果有 modelid，将其作为 id 传递给后端
     if (clean.modelid !== undefined) {
       payload.id = clean.modelid;
+    }
+
+    // 如果有 params，传递给后端
+    if (clean.params) {
+      payload.params = clean.params;
     }
 
     this.logger.debug(`Forwarding payload to /api/v1/analyze: ${JSON.stringify(payload)}`);
