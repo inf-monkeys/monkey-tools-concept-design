@@ -132,19 +132,26 @@ export class ConceptDesignService {
     return await this.post('/api/v1/transform', payload, credential);
   }
 
-  public async analyze(inputs: { it: any; filename: string; force: any; m_n: string; id?: any;[k: string]: any }, credential?: any) {
+  public async analyze(inputs: { it: any; filename: string; force: any; m_n: string; modelid?: any;[k: string]: any }, credential?: any) {
     const { __advancedConfig, ...rest } = (inputs || {}) as any;
     const clean: any = { ...rest };
     if (typeof clean.it === 'string') clean.it = Number(clean.it);
     if (typeof clean.force === 'string') clean.force = Number(clean.force);
-    if (clean.id !== undefined && typeof clean.id === 'string') clean.id = Number(clean.id);
-    const payload = {
+    if (clean.modelid !== undefined && typeof clean.modelid === 'string') clean.modelid = Number(clean.modelid);
+
+    // 构建 payload，将 modelid 映射为后端的 id 参数
+    const payload: any = {
       it: clean.it,
       filename: clean.filename,
       force: clean.force,
       m_n: clean.m_n,
-      ...(clean.id !== undefined && { id: clean.id }) // 只有定义了才传递
     };
+
+    // 如果有 modelid，将其作为 id 传递给后端
+    if (clean.modelid !== undefined) {
+      payload.id = clean.modelid;
+    }
+
     this.logger.debug(`Forwarding payload to /api/v1/analyze: ${JSON.stringify(payload)}`);
     return await this.post('/api/v1/analyze', payload, credential);
   }
