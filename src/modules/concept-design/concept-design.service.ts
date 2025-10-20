@@ -2,14 +2,70 @@ import { config } from '@/common/config';
 import { S3Helpers } from '@/common/s3';
 import { Injectable, Logger } from '@nestjs/common';
 import axios, { AxiosRequestConfig } from 'axios';
+import axiosRetry from 'axios-retry';
+import { HttpsProxyAgent } from 'https-proxy-agent';
+import { Agent as HttpAgent } from 'http';
+import { Agent as HttpsAgent } from 'https';
 
 @Injectable()
 export class ConceptDesignService {
   private readonly logger = new Logger(ConceptDesignService.name);
   private s3Helpers: S3Helpers | null = null;
   private s3Enabled: boolean = false;
+  private httpAgent: HttpAgent;
+  private httpsAgent: HttpsAgent | HttpsProxyAgent<string>;
 
   constructor() {
+    // 配置代理（如果环境变量中有设置）
+    const proxy = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.https_proxy || process.env.http_proxy;
+
+    if (proxy) {
+      this.logger.log(`检测到代理配置: ${proxy}`);
+      this.httpsAgent = new HttpsProxyAgent(proxy, {
+        keepAlive: true,
+        keepAliveMsecs: 1000,
+        timeout: 60000,
+        scheduling: 'lifo',
+      });
+      this.httpAgent = new HttpAgent({
+        keepAlive: true,
+        keepAliveMsecs: 1000,
+        timeout: 60000,
+        scheduling: 'lifo',
+      });
+    } else {
+      this.logger.log('未检测到代理配置，使用直连模式');
+      this.httpsAgent = new HttpsAgent({
+        keepAlive: true,
+        keepAliveMsecs: 1000,
+        timeout: 60000,
+        scheduling: 'lifo',
+        rejectUnauthorized: false, // 如需验证证书，设为 true
+      });
+      this.httpAgent = new HttpAgent({
+        keepAlive: true,
+        keepAliveMsecs: 1000,
+        timeout: 60000,
+        scheduling: 'lifo',
+      });
+    }
+
+    // 配置 axios 重试机制
+    axiosRetry(axios, {
+      retries: 3,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        // 对网络错误和 5xx 错误进行重试
+        return axiosRetry.isNetworkOrIdempotentRequestError(error) ||
+               error.code === 'ECONNRESET' ||
+               error.code === 'ETIMEDOUT' ||
+               error.code === 'ECONNABORTED';
+      },
+      onRetry: (retryCount, error, requestConfig) => {
+        this.logger.warn(`请求失败，正在进行第 ${retryCount} 次重试: ${error.message}`);
+      },
+    });
+
     // 只有在 S3 配置存在时才初始化 S3Helpers
     if (config.s3 && config.s3.bucket && config.s3.accessKeyId && config.s3.secretAccessKey) {
       try {
@@ -60,6 +116,11 @@ export class ConceptDesignService {
       timeout: this.getTimeoutMs(),
       // 强制使用 IPv4，避免 Docker 容器中 IPv6 解析问题
       family: 4,
+      // 添加 HTTP/HTTPS Agent 支持代理和 keepAlive
+      httpAgent: this.httpAgent,
+      httpsAgent: this.httpsAgent,
+      // 防止重复压缩
+      decompress: true,
     };
     this.logger.debug(`POST ${url}`);
     const resp = await axios<T>(options);
@@ -169,6 +230,9 @@ export class ConceptDesignService {
       responseType: 'stream',
       // 强制使用 IPv4，避免 Docker 容器中 IPv6 解析问题
       family: 4,
+      // 添加 HTTP/HTTPS Agent 支持代理和 keepAlive
+      httpAgent: this.httpAgent,
+      httpsAgent: this.httpsAgent,
     };
     this.logger.debug(`GET ${url}`);
     const resp = await axios(options);
