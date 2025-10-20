@@ -1,0 +1,22 @@
+workflow:
+  baseUrl: https://concept-design.infmonkeys.com
+  apiKey: sk-tlZlZJGqUUjgId14acW2wPNqfBgU552Sdgpl4VDHvyjK2vFn
+  timeout: 900
+
+server:
+  port: 3000
+  appUrl: "https://concept-design-infmonkeys.d.run"
+
+conceptDesign:
+  baseUrl: "https://df3e974a36dd.ngrok-free.app"
+  timeout: 900
+
+s3:
+  isPrivate: false
+  forcePathStyle: true
+  endpoint: http://minio-svc.mcamel-system.svc:80
+  accessKeyId: dLvXJQVLFtqXhLv25K6y
+  secretAccessKey: 0zHC1QrPe4egmd96EwdIyfOwQlafeILfcq575ITY
+  region: us-east-1
+  bucket: monkeys
+  publicAccessUrl: https://minio-infmonkeys.d.run/monkeys

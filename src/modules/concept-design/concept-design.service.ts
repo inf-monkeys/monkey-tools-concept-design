@@ -58,6 +58,8 @@ export class ConceptDesignService {
       data,
       headers: this.buildHeaders(credential),
       timeout: this.getTimeoutMs(),
+      // 强制使用 IPv4，避免 Docker 容器中 IPv6 解析问题
+      family: 4,
     };
     this.logger.debug(`POST ${url}`);
     const resp = await axios<T>(options);
@@ -165,6 +167,8 @@ export class ConceptDesignService {
       headers: this.buildHeaders(credential),
       timeout: this.getTimeoutMs(),
       responseType: 'stream',
+      // 强制使用 IPv4，避免 Docker 容器中 IPv6 解析问题
+      family: 4,
     };
     this.logger.debug(`GET ${url}`);
     const resp = await axios(options);
