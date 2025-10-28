@@ -364,4 +364,91 @@ export class WorkflowFeatureController {
       inputData: body,
     });
   }
+
+  @Post('text_to_image')
+  @MonkeyToolName('text_to_image')
+  @MonkeyToolCategories(['feature', 'prototype'])
+  @MonkeyToolIcon('lucide:wand-2')
+  @MonkeyToolDisplayName({
+    "en-US": "Text to Image",
+    "zh-CN": "文字生成图片"
+  })
+  @MonkeyToolInput([
+    {
+      "name": "gbngk9",
+      "displayName": {
+        "en-US": "Image Description",
+        "zh-CN": "图片描述"
+      },
+      "required": true,
+      "type": "string"
+    }
+  ])
+  @MonkeyToolOutput([
+    {
+      name: 'data',
+      displayName: {
+        'zh-CN': '结果',
+        'en-US': 'Result',
+      },
+      required: true,
+      type: 'string',
+    },
+  ])
+  public async textToImage(
+    @Body() body: any,
+  ) {
+    return await this.service.requestWorkflow({
+      workflowId: '6900413a92254bafc8da4f00',
+      inputData: body,
+    });
+  }
+
+  @Post('image_to_text')
+  @MonkeyToolName('image_to_text')
+  @MonkeyToolCategories(['feature', 'prototype'])
+  @MonkeyToolIcon('lucide:text-cursor')
+  @MonkeyToolDisplayName({
+    "en-US": "Image to Text",
+    "zh-CN": "图片生成文字"
+  })
+  @MonkeyToolInput([
+    {
+      "name": "8rn98n",
+      "displayName": {
+        "en-US": "Image",
+        "zh-CN": "图片"
+      },
+      "required": true,
+      "type": "string",
+    },
+    {
+      "name": "type",
+      "displayName": {
+        "zh-CN": "生成类别",
+        "en-US": "Generation Category",
+      },
+      "required": true,
+      "type": "string",
+    }
+  ])
+  @MonkeyToolOutput([
+    {
+      name: 'data',
+      displayName: {
+        'zh-CN': '结果',
+        'en-US': 'Result',
+      },
+      required: true,
+      type: 'string',
+    },
+  ])
+  public async imageToText(
+    @Body() body: any,
+  ) {
+    return await this.service.requestWorkflow({
+      workflowId: '69005f4b675c30360235e3ba',
+      inputData: body,
+    });
+  }
 }
