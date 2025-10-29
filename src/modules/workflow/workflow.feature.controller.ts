@@ -451,4 +451,44 @@ export class WorkflowFeatureController {
       inputData: body,
     });
   }
+
+  @Post('text_to_3d_model')
+  @MonkeyToolName('text_to_3d_model')
+  @MonkeyToolCategories(['feature', 'prototype'])
+  @MonkeyToolIcon('lucide:box')
+  @MonkeyToolDisplayName({
+    "en-US": "Text to 3D Model",
+    "zh-CN": "文字生成3D模型"
+  })
+  @MonkeyToolInput([
+    {
+      "name": "prompt",
+      "displayName": {
+        "en-US": "3D Model Description",
+        "zh-CN": "3D模型描述"
+      },
+      "required": true,
+      "type": "string"
+    }
+  ])
+  @MonkeyToolOutput([
+    {
+      name: 'data',
+      displayName: {
+        'zh-CN': '结果',
+        'en-US': 'Result',
+      },
+      required: true,
+      type: 'string',
+    },
+  ])
+  public async textTo3dModel(
+    @Body() body: any,
+  ) {
+    return await this.service.requestWorkflow({
+      workflowId: '6901ba2200127c9c1b8ad27b',
+      inputData: body,
+      timeout: 3600,
+    });
+  }
 }
