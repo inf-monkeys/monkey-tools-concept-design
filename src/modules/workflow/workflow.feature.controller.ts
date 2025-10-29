@@ -365,56 +365,20 @@ export class WorkflowFeatureController {
     });
   }
 
-  @Post('text_to_image')
-  @MonkeyToolName('text_to_image')
-  @MonkeyToolCategories(['feature', 'prototype'])
-  @MonkeyToolIcon('lucide:wand-2')
-  @MonkeyToolDisplayName({
-    "en-US": "Text to Image",
-    "zh-CN": "文字生成图片"
-  })
-  @MonkeyToolInput([
-    {
-      "name": "gbngk9",
-      "displayName": {
-        "en-US": "Image Description",
-        "zh-CN": "图片描述"
-      },
-      "required": true,
-      "type": "string"
-    }
-  ])
-  @MonkeyToolOutput([
-    {
-      name: 'data',
-      displayName: {
-        'zh-CN': '结果',
-        'en-US': 'Result',
-      },
-      required: true,
-      type: 'string',
-    },
-  ])
-  public async textToImage(
-    @Body() body: any,
-  ) {
-    return await this.service.requestWorkflow({
-      workflowId: '6900413a92254bafc8da4f00',
-      inputData: body,
-    });
-  }
-
-  @Post('image_to_text')
-  @MonkeyToolName('image_to_text')
+  /**
+   * 设计资产信息页面中的图片转换功能
+   */
+  @Post('image_to_function')
+  @MonkeyToolName('image_to_function')
   @MonkeyToolCategories(['feature', 'prototype'])
   @MonkeyToolIcon('lucide:text-cursor')
   @MonkeyToolDisplayName({
-    "en-US": "Image to Text",
-    "zh-CN": "图片生成文字"
+    "en-US": "Image to Function",
+    "zh-CN": "图片转换功能"
   })
   @MonkeyToolInput([
     {
-      "name": "8rn98n",
+      "name": "image",
       "displayName": {
         "en-US": "Image",
         "zh-CN": "图片"
@@ -423,10 +387,10 @@ export class WorkflowFeatureController {
       "type": "string",
     },
     {
-      "name": "type",
+      "name": "function",
       "displayName": {
-        "zh-CN": "生成类别",
-        "en-US": "Generation Category",
+        "zh-CN": "功能",
+        "en-US": "Function",
       },
       "required": true,
       "type": "string",
@@ -443,29 +407,41 @@ export class WorkflowFeatureController {
       type: 'string',
     },
   ])
-  public async imageToText(
+  public async imageToFunction(
     @Body() body: any,
   ) {
     return await this.service.requestWorkflow({
-      workflowId: '69005f4b675c30360235e3ba',
+      workflowId: '6901d6a98e22439dfb12743a',
       inputData: body,
     });
   }
 
-  @Post('text_to_3d_model')
-  @MonkeyToolName('text_to_3d_model')
+  /**
+   * 设计资产信息页面中的文字转换功能
+   */
+  @Post('text_to_function')
+  @MonkeyToolName('text_to_function')
   @MonkeyToolCategories(['feature', 'prototype'])
   @MonkeyToolIcon('lucide:box')
   @MonkeyToolDisplayName({
-    "en-US": "Text to 3D Model",
-    "zh-CN": "文字生成3D模型"
+    "en-US": "Text to Function",
+    "zh-CN": "文字转换功能"
   })
   @MonkeyToolInput([
     {
-      "name": "prompt",
+      "name": "text",
       "displayName": {
-        "en-US": "3D Model Description",
-        "zh-CN": "3D模型描述"
+        "en-US": "Text",
+        "zh-CN": "文字"
+      },
+      "required": true,
+      "type": "string"
+    },
+    {
+      "name": "function",
+      "displayName": {
+        "en-US": "Function",
+        "zh-CN": "功能"
       },
       "required": true,
       "type": "string"
@@ -482,13 +458,12 @@ export class WorkflowFeatureController {
       type: 'string',
     },
   ])
-  public async textTo3dModel(
+  public async textToFunction(
     @Body() body: any,
   ) {
     return await this.service.requestWorkflow({
-      workflowId: '6901ba2200127c9c1b8ad27b',
+      workflowId: '6901e37ea5296be427f9ccab',
       inputData: body,
-      timeout: 3600,
     });
   }
 }
